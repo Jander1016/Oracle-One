@@ -33,6 +33,7 @@ public class Class13 {
 
     students.forEach(student-> System.out.println(student));
 
+    System.out.println(students.stream().filter(student -> student.equalsIgnoreCase("Gustavo Polar")).findFirst().orElse("Gustavo Polar Not Found"));
 
   }
 }
