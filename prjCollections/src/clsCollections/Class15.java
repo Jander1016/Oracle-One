@@ -27,8 +27,12 @@ public class Class15 {
     course1.addStudent(student7);
     course1.addStudent(student8);
 
-    System.out.println(course1.getStudent().contains(student1));
-    System.out.println(course1.verficatedStudent(student7));
+    System.out.println(course1.getStudents().contains(student1));
+    System.out.println(course1.verificatedStudent(student7));
+    course1.getStudents()
+            .stream()
+            .sorted(Comparator.comparing(Student::getCode).reversed())
+            .forEach(student -> System.out.println(student.getCode() +" - " + student.getName()));
 
   }
 

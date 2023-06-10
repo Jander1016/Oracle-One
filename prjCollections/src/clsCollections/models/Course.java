@@ -1,15 +1,15 @@
 package clsCollections.models;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Course {
   private String  name;
   private int time;
-
   private List<ClassCourse> listClass = new ArrayList<>();
-
+  private Collection<Student> student = new HashSet<>();
+//private Collection<Student> student = new LinkedHashSet<>();
+  private Map<String, Student> studentMap = new HashMap<>();
+  //private Map<String, Student> studentMap = new linkedHashMap<>();
   public Course(String name, int time) {
     this.name = name;
     this.time = time;
@@ -44,12 +44,27 @@ public class Course {
     this.listClass = listClass;
   }
 
-  public void AddClass(ClassCourse c) {
+  public void addClass(ClassCourse c) {
     this.listClass.add(c);
   }
 
   @Override
   public String toString() {
     return this.name + " (" + time + ")";
+  }
+
+  public void addStudent(Student student) {
+    this.student.add(student);
+    this.studentMap.put(student.getCode(), student);
+  }
+  public boolean verificatedStudent(Student student) {
+    return this.student.contains(student);
+  }
+  public Collection<Student> getStudents() {
+    return student;
+  }
+
+  public Map<String, Student> getStudentMap() {
+    return studentMap;
   }
 }

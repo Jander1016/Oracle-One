@@ -8,14 +8,14 @@ import java.util.ArrayList;
 public class Class6 {
   public static void main(String[] args) {
     Course course1 = new Course("JavaScript", 30);
-    course1.AddClass(new ClassCourse("ArrayList"));
-    course1.AddClass(new ClassCourse("LinkedList"));
-    course1.AddClass(new ClassCourse("List"));
+    course1.addClass(new ClassCourse("ArrayList"));
+    course1.addClass(new ClassCourse("LinkedList"));
+    course1.addClass(new ClassCourse("List"));
 
     Course course2 = new Course("Java", 60);
-    course2.AddClass(new ClassCourse("Collections"));
-    course2.AddClass(new ClassCourse("Variables"));
-    course2.AddClass(new ClassCourse("Setters & Getters"));
+    course2.addClass(new ClassCourse("Collections"));
+    course2.addClass(new ClassCourse("Variables"));
+    course2.addClass(new ClassCourse("Setters & Getters"));
 
     System.out.println("Class of the Course "+ course1.getName()+ ": " + course1.getListClass());
     System.out.println("Class of the Course "+ course2.getName()+ ": " + course2.getListClass());

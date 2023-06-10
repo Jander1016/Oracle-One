@@ -5,6 +5,7 @@ import clsCollections.models.Student;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Class16 {
   public static void main(String[] args) {
@@ -37,7 +38,11 @@ public class Class16 {
 
     while(studentsIterator.hasNext())
     {
-      System.out.println(studentsIterator.next().getName());
+      try {
+        studentsIterator.next().getName();
+      } catch (NoSuchElementException e){
+        System.out.println("No Existe");
+      }
     }
 
     course1.getStudents().forEach(student-> System.out.println(student.getCode() +" - " + student.getName()));
