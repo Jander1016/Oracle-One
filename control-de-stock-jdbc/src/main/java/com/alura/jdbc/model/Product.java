@@ -5,6 +5,11 @@ public class Product {
   private String name_product;
   private String description;
   private int quantity;
+  public Product(String name_product, String description, int quantity) {
+    this.name_product = name_product;
+    this.description = description;
+    this.quantity = quantity;
+  }
   public Product(int id, String name_product, String description, int quantity) {
     this.id = id;
     this.name_product = name_product;
@@ -35,11 +40,17 @@ public class Product {
   public void setQuantity(int quantity) {
     this.quantity = quantity;
   }
-
   public void setId(int id) {
     this.id = id;
   }
-
-
-
+  public int getId() {
+    return id;
+  }
+  @Override
+  public String toString() {
+    return String.format(
+            "{id: %d, name: %S, description: %s, quantity: %d}",
+            this.id, this.name_product, this.description, this.quantity
+    );
+  }
 }
