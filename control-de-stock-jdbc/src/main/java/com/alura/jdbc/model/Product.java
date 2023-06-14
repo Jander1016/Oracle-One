@@ -5,16 +5,19 @@ public class Product {
   private String name_product;
   private String description;
   private int quantity;
-  public Product(String name_product, String description, int quantity) {
+  private int category_id;
+  public Product(int id, String name_product, String description, int quantity, int idCategory) {
+    this.id =id;
     this.name_product = name_product;
     this.description = description;
     this.quantity = quantity;
+    this.category_id = idCategory;
   }
-  public Product(int id, String name_product, String description, int quantity) {
-    this.id = id;
+  public Product(String name_product, String description, int quantity, int idCategory) {
     this.name_product = name_product;
     this.description = description;
     this.quantity = quantity;
+    this.category_id = idCategory;
   }
 
   public String getName_product() {
@@ -46,6 +49,15 @@ public class Product {
   public int getId() {
     return id;
   }
+
+  public int getCategory_id() {
+    return category_id;
+  }
+
+  public void setCategory_id(int category_id) {
+    this.category_id = category_id;
+  }
+
   @Override
   public String toString() {
     return String.format(

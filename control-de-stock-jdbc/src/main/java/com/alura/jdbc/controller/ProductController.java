@@ -15,8 +15,8 @@ public class ProductController {
     this.productDAO = new ProductDAO(new ConnectionFactory().recoveryConnection());
   };
 
-  public int updateProduct(String name_product, String description, Integer quantity, Integer id)  {
-    return productDAO.update(name_product, description, quantity, id);
+  public int updateProduct(String name_product, String description, Integer quantity, Integer id, Integer id_category)  {
+    return productDAO.update(name_product, description, quantity, id, id_category);
   }
 
   public int deleteProductById(Integer id){
@@ -27,7 +27,8 @@ public class ProductController {
     return productDAO.listing();
   }
 
-  public void safeProduct(Product product) {
+  public void safeProduct(Product product, Integer id_category) {
+    product.setCategory_id(id_category);
     productDAO.safe(product);
   }
 

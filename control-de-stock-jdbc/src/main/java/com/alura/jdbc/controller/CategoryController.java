@@ -1,18 +1,27 @@
 package com.alura.jdbc.controller;
 
+import com.alura.jdbc.dao.CategoryDAO;
+import com.alura.jdbc.factory.ConnectionFactory;
+import com.alura.jdbc.model.Category;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriaController {
+public class CategoryController {
 
-	public List<?> listar() {
+  private CategoryDAO categoryDAO;
+
+  public CategoryController(){
+    this.categoryDAO = new CategoryDAO(new ConnectionFactory().recoveryConnection());
+  }
+	public List<Category> categoryList() {
 		// TODO
-		return new ArrayList<>();
+		return categoryDAO.categoryList();
 	}
 
-    public List<?> cargaReporte() {
-        // TODO
-        return new ArrayList<>();
-    }
+  public List<Category> loadReport() {
+      // TODO
+      return new ArrayList<>();
+  }
 
 }

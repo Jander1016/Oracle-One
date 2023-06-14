@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.Optional;
 
 import javax.swing.JButton;
@@ -16,8 +15,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import com.alura.jdbc.controller.CategoriaController;
+import com.alura.jdbc.controller.CategoryController;
 import com.alura.jdbc.controller.ProductController;
+import com.alura.jdbc.model.Category;
 import com.alura.jdbc.model.Product;
 
 public class ControlDeStockFrame extends JFrame {
@@ -26,17 +26,17 @@ public class ControlDeStockFrame extends JFrame {
 
   private JLabel labelNombre, labelDescripcion, labelCantidad, labelCategoria;
   private JTextField textoNombre, textoDescripcion, textoCantidad;
-  private JComboBox<Object> comboCategoria;
+  private JComboBox<Category> comboCategoria;
   private JButton botonGuardar, botonModificar, botonLimpiar, botonEliminar, botonReporte;
   private JTable table;
   private DefaultTableModel model;
   private ProductController productController;
-  private CategoriaController categoriaController;
+  private CategoryController categoryController;
 
   public ControlDeStockFrame() {
     super("Products");
 
-    this.categoriaController = new CategoriaController();
+    this.categoryController = new CategoryController();
     this.productController = new ProductController();
 
     Container container = getContentPane();
@@ -57,6 +57,7 @@ public class ControlDeStockFrame extends JFrame {
     model.addColumn("Nombre del Producto");
     model.addColumn("Descripción del Producto");
     model.addColumn("Cantidad");
+    model.addColumn("Id Category");
 
     loadTable();
 
@@ -98,11 +99,11 @@ public class ControlDeStockFrame extends JFrame {
     textoDescripcion = new JTextField();
     textoCantidad = new JTextField();
     comboCategoria = new JComboBox<>();
-    comboCategoria.addItem("Elige una Categoría");
+    comboCategoria.addItem(new Category(0,"Selected Category"));
 
     // TODO
-    var categorias = this.categoriaController.listar();
-    // categorias.forEach(categoria -> comboCategoria.addItem(categoria));
+    var categories = this.categoryController.categoryList();
+     categories.forEach(category -> comboCategoria.addItem(category));
 
     textoNombre.setBounds(10, 25, 265, 20);
     textoDescripcion.setBounds(10, 65, 265, 20);
@@ -188,8 +189,9 @@ public class ControlDeStockFrame extends JFrame {
               String name_product = (String) model.getValueAt(table.getSelectedRow(), 1);
               String description = (String) model.getValueAt(table.getSelectedRow(), 2);
               Integer quantity = Integer.valueOf (model.getValueAt(table.getSelectedRow(), 3).toString());
+              Integer id_category = Integer.valueOf (model.getValueAt(table.getSelectedRow(), 4).toString());
 
-              var rowUpdated = this.productController.updateProduct(name_product, description, quantity, id);
+              var rowUpdated = this.productController.updateProduct(name_product, description, quantity, id, id_category);
 
               JOptionPane.showMessageDialog(this, String.format("%d item updated successful!", rowUpdated));
             }, () -> JOptionPane.showMessageDialog(this, "Please, selected item"));
@@ -220,7 +222,8 @@ public class ControlDeStockFrame extends JFrame {
               product.getId(),
               product.getName_product(),
               product.getDescription(),
-              product.getQuantity()
+              product.getQuantity(),
+              product.getCategory_id()
       }));
     } catch (Exception e) {
       throw e;
@@ -243,14 +246,13 @@ public class ControlDeStockFrame extends JFrame {
       return;
     }
 
-    // TODO
-    var product = new Product(textoNombre.getText(),textoDescripcion.getText(),quantityInt);
+    var category = (Category) comboCategoria.getSelectedItem();
+
+    var product = new Product(textoNombre.getText(),textoDescripcion.getText(),quantityInt, category.getId_category());
 
 
-    var category = comboCategoria.getSelectedItem();
 
-    this.productController.safeProduct(product);
-
+    this.productController.safeProduct(product, category.getId_category());
 
     JOptionPane.showMessageDialog(this, "Register successful!");
 

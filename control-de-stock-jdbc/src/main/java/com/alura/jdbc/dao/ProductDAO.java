@@ -1,13 +1,10 @@
 package com.alura.jdbc.dao;
 
-import com.alura.jdbc.factory.ConnectionFactory;
 import com.alura.jdbc.model.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ProductDAO {
   final private Connection cn;
@@ -16,7 +13,7 @@ public class ProductDAO {
   }
   public void safe(Product product){
     try {
-      final PreparedStatement statement = cn.prepareStatement("INSERT INTO product(name_product, description, quantity) values (?,?, ?)", Statement.RETURN_GENERATED_KEYS);
+      final PreparedStatement statement = cn.prepareStatement("INSERT INTO product(name_product, description, quantity, id_category) values (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
       try(statement) {
         InsertRegister(product, statement);
@@ -29,6 +26,7 @@ public class ProductDAO {
     statement.setString(1, product.getName_product());
     statement.setString(2, product.getDescription());
     statement.setInt(3, product.getQuantity());
+    statement.setInt(4, product.getCategory_id());
     statement.execute();
 
     final ResultSet rsIds = statement.getGeneratedKeys();
@@ -43,7 +41,7 @@ public class ProductDAO {
   public List<Product> listing() {
 
     try{
-      final PreparedStatement statement = cn.prepareStatement("select id, name_product, description,quantity from product");
+      final PreparedStatement statement = cn.prepareStatement("select id, name_product, description,quantity, id_category from product");
       try(statement){
         statement.execute();
         ResultSet rs = statement.getResultSet();
@@ -53,7 +51,8 @@ public class ProductDAO {
                   rs.getInt("id"),
                   rs.getString("name_product"),
                   rs.getString("description"),
-                  rs.getInt("quantity")
+                  rs.getInt("quantity"),
+                  rs.getInt("id_category")
                   );
           productList.add(product);
         }
@@ -63,18 +62,20 @@ public class ProductDAO {
       throw new RuntimeException(e);
     }
   }
-  public int update(String name_product, String description, Integer quantity, Integer id)  {
+  public int update(String name_product, String description, Integer quantity, Integer id, Integer id_category)  {
     try {
       final PreparedStatement statement = cn.prepareStatement("UPDATE PRODUCT SET "
               + " name_product = ? "
               + ", description = ? "
               + ", quantity = ? "
+              + ", id_category = ? "
               + " WHERE id = ?");
       try(statement) {
         statement.setString(1, name_product);
         statement.setString(2, description);
         statement.setInt(3, quantity);
-        statement.setInt(4, id);
+        statement.setInt(4, id_category);
+        statement.setInt(5, id);
         statement.execute();
 
         int updateCount = statement.getUpdateCount();
